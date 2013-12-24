@@ -6,13 +6,6 @@
     (setenv "PATH" path-from-shell)
     (setq exec-path (split-string path-from-shell path-separator))))
 
-;; Uncomment the lines below by removing semicolons and play with the
-;; values in order to set the width (in characters wide) and height
-;; (in lines high) Emacs will have whenever you start it
-
-;; (setq initial-frame-alist '((top . 0) (left . 0) (width . 20) (height . 20)))
-
-
 ;; Place downloaded elisp files in this directory. You'll then be able
 ;; to load them.
 ;;
@@ -63,3 +56,30 @@
 
 ;; Save here instead of littering current directory with emacs backup files
 (setq backup-directory-alist `(("." . "~/.saves")))
+
+;; C indentation
+
+;; my changes
+(setq c-default-style "linux" c-basic-offset 4)
+
+;; ;; from wiki
+(setq-default c-indent-tabs-mode t     ; Pressing TAB should cause indentation
+              c-indent-level 4         ; A TAB is equivilent to four spaces
+              c-argdecl-indent 0       ; Do not indent argument decl's extra
+              c-tab-always-indent t
+              backward-delete-function nil) ; DO NOT expand tabs when deleting
+(c-add-style "my-c-style" '((c-continued-statement-offset 4))) ; If a statement continues on the next line, indent the continuation by 4
+(defun my-c-mode-hook ()
+  (c-set-style "my-c-style")
+;;   (c-set-offset 'substatement-open '0) ; brackets should be at same indentation level as the statements they open
+  (c-set-offset 'inline-open '+)
+  (c-set-offset 'block-open '+)
+;;   (c-set-offset 'brace-list-open '+)   ; all "opens" should be indented by the c-indent-level
+  (c-set-offset 'case-label '+))       ; indent case labels by c-indent-level, too
+(add-hook 'c-mode-hook 'my-c-mode-hook)
+(add-hook 'c++-mode-hook 'my-c-mode-hook)
+
+
+;; Autopair https://github.com/capitaomorte/autopair
+(require 'autopair)
+(autopair-global-mode) ;; enable autopair in all buffers

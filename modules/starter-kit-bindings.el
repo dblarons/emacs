@@ -119,3 +119,18 @@
 
 (provide 'starter-kit-bindings)
 ;;; starter-kit-bindings.el ends here
+
+;; Cycle backwards between buffers with "C-x O"
+;; (global-set-key (kbd "C-x O") 'previous-multiframe-window)
+
+;;; Multiple-Cursors keybindings:
+
+;; add cursor to each line
+(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+
+;; select next/previous matching word
+(global-set-key (kbd "C->") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+
+                
