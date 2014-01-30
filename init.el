@@ -8,6 +8,9 @@
 (when (not package-archive-contents)
   (package-refresh-contents))
 
+;; load the key bindings file before providing it to my-packages
+(load "~/.emacs.d/modules/starter-kit-bindings.el")
+
 ;; Add in your own as you wish:
 (defvar my-packages '(starter-kit
                       starter-kit-lisp
@@ -36,3 +39,6 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+;; set default directory for C-x C-f
+(setq default-directory "/Users/aaron/Documents/Code/")

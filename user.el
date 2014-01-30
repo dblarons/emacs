@@ -6,6 +6,9 @@
     (setenv "PATH" path-from-shell)
     (setq exec-path (split-string path-from-shell path-separator))))
 
+;; Default window size when emacs is opened
+(setq initial-frame-alist '((top . 0) (left . 0) (width . 157) (height . 43)))
+
 ;; Place downloaded elisp files in this directory. You'll then be able
 ;; to load them.
 ;;
@@ -28,9 +31,9 @@
 (add-to-list 'load-path "~/.emacs.d/themes")
 ;; Uncomment this to increase font size
 ;; (set-face-attribute 'default nil :height 140)
-(load-theme 'tomorrow-night-bright t)
+(load-theme 'spolsky t)
 
-;; Flyspell often slows down editing so it's turned off
+;; Flyspell Often Slows Down editing so it's turned off
 (remove-hook 'text-mode-hook 'turn-on-flyspell)
 
 ;; Clojure
@@ -56,6 +59,12 @@
 
 ;; Save here instead of littering current directory with emacs backup files
 (setq backup-directory-alist `(("." . "~/.saves")))
+
+;; activate emacs electric indent mode
+(electric-indent-mode 1)
+
+;; Set hippie expand to M-spc instead of the default M-/
+(global-set-key "\M- " 'hippie-expand)
 
 ;; C indentation
 
@@ -83,3 +92,15 @@
 ;; Autopair https://github.com/capitaomorte/autopair
 (require 'autopair)
 (autopair-global-mode) ;; enable autopair in all buffers
+
+
+;; Io Mode
+(require 'io-mode)
+(add-to-list 'auto-mode-alist '("\\.io$" . io-mode))
+
+;; Set font size. The value is in 1/10pt, so 100 will give you 10pt, etc.
+(set-face-attribute 'default nil :height 130)
+
+;; scroll one line at a time
+(setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
+;; (setq mouse-wheel-progressive-speed nil) ;; don't accelerate scrolling

@@ -102,6 +102,21 @@
   ;; So good!
   (global-set-key (kbd "C-c g") 'magit-status)
 
+  ;; Multiple-Cursors keybindings:
+
+  ;; add cursor to each line
+  (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+  
+  ;; select next/previous matching word
+  (global-set-key (kbd "C->") 'mc/mark-next-like-this)
+  (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+  (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+  (global-set-key (kbd "<s-mouse-1>") 'mc/add-cursor-on-click)
+  
+  ;; Up three lines; down three lines
+  (global-set-key (kbd "M-p") (kbd "C-u 3 C-p"))
+  (global-set-key (kbd "M-n") (kbd "C-u 3 C-n"))
+
   ;; This is a little hacky since VC doesn't support git add internally
   (eval-after-load 'vc
     (define-key vc-prefix-map "i"
@@ -119,18 +134,3 @@
 
 (provide 'starter-kit-bindings)
 ;;; starter-kit-bindings.el ends here
-
-;; Cycle backwards between buffers with "C-x O"
-;; (global-set-key (kbd "C-x O") 'previous-multiframe-window)
-
-;;; Multiple-Cursors keybindings:
-
-;; add cursor to each line
-(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
-
-;; select next/previous matching word
-(global-set-key (kbd "C->") 'mc/mark-next-like-this)
-(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
-
-                

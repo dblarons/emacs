@@ -5,10 +5,18 @@
 
 (setq mc/cmds-to-run-for-all
       '(
+        autopair-insert-or-skip-quote
+        c-electric-delete-forward
+        c-electric-lt-gt
+        c-electric-semi&comma
+        c-electric-slash
+        c-indent-line-or-region
         ))
 
 (setq mc/cmds-to-run-once
       '(
-        c-electric-semi&comma
         ido-switch-buffer
+        isearch-forward-regexp
+        isearch-printing-char
+        smex
         ))
