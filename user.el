@@ -22,10 +22,14 @@
 ;; a .yml file
 (add-to-list 'load-path "~/.emacs.d/vendor")
 
+;; Replace initial scratch message
+(setq initial-scratch-message "...")
+
 ;; shell scripts
 (setq-default sh-basic-offset 2)
 (setq-default sh-indentation 2)
 
+;; some installed themes are at https://github.com/owainlewis/emacs-color-themes
 ;; Themes
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (add-to-list 'load-path "~/.emacs.d/themes")
@@ -104,3 +108,56 @@
 ;; scroll one line at a time
 (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
 ;; (setq mouse-wheel-progressive-speed nil) ;; don't accelerate scrolling
+
+;; A small minor mode to use a big fringe
+(defvar bzg-big-fringe-mode nil)
+(define-minor-mode bzg-big-fringe-mode
+  "Minor mode to hide the mode-line in the current buffer."
+  :init-value nil
+  :global t
+  :variable bzg-big-fringe-mode
+  :group 'editing-basics
+  (if (not bzg-big-fringe-mode)
+      (set-fringe-style nil)
+    (set-fringe-mode
+     (/ (- (frame-pixel-width)
+           (* 100 (frame-char-width)))
+        2))))
+
+;; Now activate this global minor mode
+(bzg-big-fringe-mode 0)
+
+;; My Re-indent file keyboard macro
+(fset 'reindent-file
+      (lambda (&optional arg) "Keyboard macro."
+        (interactive "p")
+        (kmacro-exec-ring-item
+         (quote
+          ([1 tab 14] 0 "%d"))
+         arg)))
+
+;; Vertical ido-mode
+(require 'ido-vertical-mode)
+(ido-mode 1)
+(ido-vertical-mode 1)
+
+;; Ignore buffers with ido
+(ido-mode 'buffers) ;; only use this line to turn off ido for file names!
+(setq ido-ignore-buffers '("^ " "*Completions*" "*Shell Command Output*"
+               "*Messages*" "Async Shell Command" "*Compile-Log*" "*Buffer List"))
+
+
+;; colors for code in org-mode
+(setq org-src-fontify-natively t)
+
+(ido-mode 1)
+(ido-everywhere 1)
+(flx-ido-mode 1)
+
+;; disable ido faces to see flx highlights.
+;; (setq ido-use-faces nil)
+
+;; enable projectile
+(projectile-global-mode)
+
+

@@ -5,7 +5,9 @@
 
 (setq mc/cmds-to-run-for-all
       '(
+        autopair-insert-opening
         autopair-insert-or-skip-quote
+        autopair-skip-close-maybe
         c-electric-delete-forward
         c-electric-lt-gt
         c-electric-semi&comma
@@ -18,5 +20,6 @@
         ido-switch-buffer
         isearch-forward-regexp
         isearch-printing-char
+        org-self-insert-command
         smex
         ))

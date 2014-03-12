@@ -117,6 +117,12 @@
   (global-set-key (kbd "M-p") (kbd "C-u 3 C-p"))
   (global-set-key (kbd "M-n") (kbd "C-u 3 C-n"))
 
+  ;; browse kill ring
+  (global-set-key (kbd "C-c l") 'browse-kill-ring)
+
+  ;; ace jump mode
+  (global-set-key (kbd "C-0") 'ace-jump-mode)
+
   ;; This is a little hacky since VC doesn't support git add internally
   (eval-after-load 'vc
     (define-key vc-prefix-map "i"
