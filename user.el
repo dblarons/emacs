@@ -33,9 +33,21 @@
 ;; Themes
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (add-to-list 'load-path "~/.emacs.d/themes")
-;; Uncomment this to increase font size
-;; (set-face-attribute 'default nil :height 140)
+
+;; Set font size. The value is in 1/10pt, so 100 will give you 10pt, etc.
+(set-face-attribute 'default nil :height 130)
+
+;; theme
 (load-theme 'spolsky t)
+
+;; Enable clipboard interoperability
+(setq x-select-enable-clipboard t)
+
+;; Set system font based on OS
+(if (eq system-type 'darwin)
+    (set-default-font "Monaco")
+    (set-default-font "Inconsolata"))
+
 
 ;; Flyspell Often Slows Down editing so it's turned off
 (remove-hook 'text-mode-hook 'turn-on-flyspell)
@@ -101,9 +113,6 @@
 ;; Io Mode
 (require 'io-mode)
 (add-to-list 'auto-mode-alist '("\\.io$" . io-mode))
-
-;; Set font size. The value is in 1/10pt, so 100 will give you 10pt, etc.
-(set-face-attribute 'default nil :height 130)
 
 ;; scroll one line at a time
 (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
