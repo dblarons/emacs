@@ -48,7 +48,6 @@
     (set-default-font "Monaco")
     (set-default-font "Inconsolata"))
 
-
 ;; Flyspell Often Slows Down editing so it's turned off
 (remove-hook 'text-mode-hook 'turn-on-flyspell)
 
