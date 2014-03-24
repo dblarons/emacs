@@ -43,6 +43,8 @@
 ;; Enable clipboard interoperability
 (setq x-select-enable-clipboard t)
 
+(delete-selection-mode 1)
+
 ;; Set system font based on OS
 (if (eq system-type 'darwin)
     (set-default-font "Monaco")
