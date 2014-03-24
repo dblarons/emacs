@@ -1,1 +1,1 @@
-("~/Documents/Notes/" "~/.emacs.d/" "~/Documents/org/Notes/" "~/Documents/Code/Vanderbilt/CS201/Project4/" "~/Documents/Code/Vanderbilt/CS201/Project3/" "~/Documents/Code/Vanderbilt/CS201/Project2/" "~/.cocoapods/repos/master/" "~/Documents/Code/Vanderbilt/CS201/Project3/src/")
+("~/.emacs.d/" "~/Documents/org/Notes/" "~/Documents/Code/Vanderbilt/CS201/Project4/" "~/Documents/Code/Vanderbilt/CS201/Project3/" "~/Documents/Code/Vanderbilt/CS201/Project2/" "~/.cocoapods/repos/master/" "~/Documents/Code/Vanderbilt/CS201/Project3/src/")

@@ -44,6 +44,9 @@
 ;; Enable clipboard interoperability
 (setq x-select-enable-clipboard t)
 
+(set-default-font "Monaco")
+
+
 ;; Flyspell Often Slows Down editing so it's turned off
 (remove-hook 'text-mode-hook 'turn-on-flyspell)
 
