@@ -8,6 +8,7 @@
         autopair-insert-opening
         autopair-insert-or-skip-quote
         autopair-skip-close-maybe
+        c-electric-colon
         c-electric-delete-forward
         c-electric-lt-gt
         c-electric-semi&comma
