@@ -102,6 +102,7 @@
   ;; So good!
   (global-set-key (kbd "C-c g") 'magit-status)
 
+  
   ;; Multiple-Cursors keybindings:
 
   ;; add cursor to each line
@@ -113,9 +114,6 @@
   (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
   (global-set-key (kbd "<s-mouse-1>") 'mc/add-cursor-on-click)
   
-  ;; Up three lines; down three lines
-  (global-set-key (kbd "M-p") (kbd "C-u 3 C-p"))
-  (global-set-key (kbd "M-n") (kbd "C-u 3 C-n"))
 
   ;; browse kill ring
   (global-set-key (kbd "C-c l") 'browse-kill-ring)
