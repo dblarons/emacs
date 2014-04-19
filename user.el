@@ -131,6 +131,21 @@
 (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
 ;; (setq mouse-wheel-progressive-speed nil) ;; don't accelerate scrolling
 
+;; disable auto-fill-mode by default
+(auto-fill-mode -1)
+
+;; enable expand-region
+(global-set-key (kbd "C-=") 'er/expand-region)
+
+;; change tab-to-tab-stop from default M-i to C-c i
+(global-set-key (kbd "C-c i") 'tab-to-tab-stop)
+
+;; change back-to-indentation from M-m to M-i
+(global-set-key (kbd "M-i") 'back-to-indentation)
+
+;; set iy-go-to-char to M-m
+(global-set-key (kbd "M-m") 'iy-go-to-char)
+
 ;; A small minor mode to use a big fringe
 (defvar bzg-big-fringe-mode nil)
 (define-minor-mode bzg-big-fringe-mode
@@ -149,14 +164,14 @@
 ;; Now activate this global minor mode
 (bzg-big-fringe-mode 0)
 
-;; My Re-indent file keyboard macro
-(fset 'reindent-file
-      (lambda (&optional arg) "Keyboard macro."
-        (interactive "p")
-        (kmacro-exec-ring-item
-         (quote
-          ([1 tab 14] 0 "%d"))
-         arg)))
+;; colors for code in org-mode
+(setq org-src-fontify-natively t)
+
+;; org mode visual line mode and auto fill hooks
+(add-hook 'org-mode-hook
+          (lambda ()
+            (visual-line-mode t)
+            (auto-fill-mode -1)))
 
 ;; Vertical ido-mode
 (require 'ido-vertical-mode)
@@ -168,9 +183,6 @@
 (setq ido-ignore-buffers '("^ " "*Completions*" "*Shell Command Output*"
                "*Messages*" "Async Shell Command" "*Compile-Log*" "*Buffer List"))
 
-
-;; colors for code in org-mode
-(setq org-src-fontify-natively t)
 
 (ido-mode 1)
 (ido-everywhere 1)
