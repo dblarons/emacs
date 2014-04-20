@@ -288,7 +288,3 @@
 ;; disable ido faces to see flx highlights.
 ;; (setq ido-use-faces nil)
 
-;; enable projectile
-(projectile-global-mode)
-
-
