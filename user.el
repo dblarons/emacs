@@ -7,7 +7,7 @@
     (setq exec-path (split-string path-from-shell path-separator))))
 
 ;; Default window size when emacs is opened
-(setq initial-frame-alist '((top . 0) (left . 0) (width . 157) (height . 43)))
+(setq initial-frame-alist '((top . 0) (left . 0) (width . 182) (height . 50)))
 
 ;; Place downloaded elisp files in this directory. You'll then be able
 ;; to load them.
@@ -34,14 +34,26 @@
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (add-to-list 'load-path "~/.emacs.d/themes")
 
+;; theme
+(load-theme 'solarized-dark t)
+
 ;; Set font size. The value is in 1/10pt, so 100 will give you 10pt, etc.
 (set-face-attribute 'default nil :height 130)
+(setq-default line-spacing 2)
 
-;; theme
-(load-theme 'spolsky t)
+;; don't make comments italic (must come after "load-theme" line)
+(set-face-italic-p 'font-lock-comment-face nil)
+(set-face-italic-p 'font-lock-comment-delimiter-face nil)
+
+;; modeline theming
+(set-face-foreground 'mode-line "#002b36")
+(set-face-background 'mode-line "#dc322f")
+
+;; disable fringes
+(fringe-mode 0)
 
 ;; enable powerline
-(powerline-center-theme)
+;; (powerline-center-theme)
 
 ;; Enable clipboard interoperability
 (setq x-select-enable-clipboard t)
@@ -52,9 +64,10 @@
 (set-variable (quote scheme-program-name) "/usr/local/bin/mit-scheme")
 
 ;; Set system font based on OS
-(if (eq system-type 'darwin)
-    (set-default-font "Monaco")
-    (set-default-font "Inconsolata"))
+;; (if (eq system-type 'darwin)
+;;     (set-default-font "Monaco")
+;;     (set-default-font "Inconsolata-dz"))
+(set-default-font "Inconsolata-dz for Powerline")
 
 ;; Flyspell Often Slows Down editing so it's turned off
 (remove-hook 'text-mode-hook 'turn-on-flyspell)
@@ -85,6 +98,10 @@
 
 ;; activate emacs electric indent mode
 (electric-indent-mode 1)
+
+;; change modeline color
+;; (set-face-background 'mode-line "dark-grey")
+;; (set-face-foreground 'mode-line "grey")
 
 ;; Set hippie expand to M-spc instead of the default M-/
 (global-set-key "\M- " 'hippie-expand)
@@ -230,6 +247,7 @@
 
 ;; disable auto-fill-mode by default
 (auto-fill-mode -1)
+(remove-hook 'text-mode-hook #'turn-on-auto-fill)
 
 ;; enable expand-region
 (global-set-key (kbd "C-=") 'er/expand-region)
@@ -288,3 +306,6 @@
 ;; disable ido faces to see flx highlights.
 ;; (setq ido-use-faces nil)
 
+;; set path for markdown parser
+(custom-set-variables
+ '(markdown-command "/usr/local/bin/markdown"))
