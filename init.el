@@ -39,24 +39,24 @@
  '(linum-format " %7i ")
  '(markdown-command "/usr/local/bin/markdown"))
 
-;; Set faces based on OS
+;; OS-specific customizations
 (if (eq system-type 'darwin)
-    (custom-set-faces)
-    (custom-set-faces
-     ;; custom-set-faces was added by Custom.
-     ;; If you edit it by hand, you could mess it up, so be careful.
-     ;; Your init file should contain only one such instance.
-     ;; If there is more than one, they won't work right.
-     '(default ((t (:inherit nil :stipple nil :background "#161A1F" :foreground "#DEDEDE" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 113 :width normal :foundry "unknown" :family "Droid Sans Mono"))))))
+    (progn
+      (set-default-font "Inconsolata-dz for Powerline")
+      (exec-path-from-shell-initialize)
+      (setq default-directory "/Users/aaron/Documents/Code/"))
+  (set-default-font "Inconsolata-dz"))
 
-;; set default directory for C-x C-f
-;; (setq default-directory "/Users/aaron/Documents/Code/")
+(when (memq window-system '(mac ns))
+  (exec-path-from-shell-initialize))
 
 (put 'dired-find-alternate-file 'disabled nil)
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
 (put 'erase-buffer 'disabled nil)

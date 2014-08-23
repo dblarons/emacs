@@ -1,13 +1,5 @@
-;; This is where your customizations should live
-
-;; env PATH
-(defun set-exec-path-from-shell-PATH ()
-  (let ((path-from-shell (shell-command-to-string "$SHELL -i -c 'echo $PATH'")))
-    (setenv "PATH" path-from-shell)
-    (setq exec-path (split-string path-from-shell path-separator))))
-
 ;; Default window size when emacs is opened
-(setq initial-frame-alist '((top . 0) (left . 0) (width . 182) (height . 50)))
+(setq initial-frame-alist '((top . 0) (left . 0) (width . 158) (height . 46)))
 
 ;; Place downloaded elisp files in this directory. You'll then be able
 ;; to load them.
@@ -29,6 +21,10 @@
 (setq-default sh-basic-offset 2)
 (setq-default sh-indentation 2)
 
+(global-evil-leader-mode) ;; must enable before evil-mode
+(evil-leader/set-leader ",")
+(evil-mode t)
+
 ;; some installed themes are at https://github.com/owainlewis/emacs-color-themes
 ;; Themes
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
@@ -39,21 +35,18 @@
 
 ;; Set font size. The value is in 1/10pt, so 100 will give you 10pt, etc.
 (set-face-attribute 'default nil :height 130)
-(setq-default line-spacing 2)
+(setq-default line-spacing 0)
 
 ;; don't make comments italic (must come after "load-theme" line)
 (set-face-italic-p 'font-lock-comment-face nil)
 (set-face-italic-p 'font-lock-comment-delimiter-face nil)
 
-;; modeline theming
-(set-face-foreground 'mode-line "#002b36")
-(set-face-background 'mode-line "#dc322f")
-
 ;; disable fringes
 (fringe-mode 0)
 
-;; enable powerline
-;; (powerline-center-theme)
+;; enable smart-mode-line
+(setq sml/theme 'respectful)
+(sml/setup)
 
 ;; Enable clipboard interoperability
 (setq x-select-enable-clipboard t)
@@ -62,12 +55,6 @@
 
 ;; set scheme version for run-scheme command
 (set-variable (quote scheme-program-name) "/usr/local/bin/mit-scheme")
-
-;; Set system font based on OS
-;; (if (eq system-type 'darwin)
-;;     (set-default-font "Monaco")
-;;     (set-default-font "Inconsolata-dz"))
-(set-default-font "Inconsolata-dz for Powerline")
 
 ;; Flyspell Often Slows Down editing so it's turned off
 (remove-hook 'text-mode-hook 'turn-on-flyspell)
@@ -119,25 +106,45 @@
               backward-delete-function nil) ; DO NOT expand tabs when
                                 ; deleting
 
-(c-add-style "my-c-style" '((c-continued-statement-offset 4))) ; If a
-                                        ; statement continues on the
-                                        ; next line, indent the
-                                        ; continuation by 4
-
 (defun my-c-mode-hook ()
   (c-set-style "my-c-style")
-;;   (c-set-offset 'substatement-open '0) ; brackets should be at same indentation level as the statements they open
-  (c-set-offset 'inline-open '+)
-  (c-set-offset 'block-open '+)
+  (c-set-offset 'substatement-open '0) ; brackets should be at same indentation level as the statements they open
+  (c-set-offset 'inline-open '0)
+  (c-set-offset 'block-open '0)
 ;;   (c-set-offset 'brace-list-open '+)   ; all "opens" should be indented by the c-indent-level
   (c-set-offset 'case-label '+))       ; indent case labels by c-indent-level, too
 (add-hook 'c-mode-hook 'my-c-mode-hook)
 (add-hook 'c++-mode-hook 'my-c-mode-hook)
+(add-hook 'csharp-mode-hook 'my-c-mode-hook)
 
+(c-set-offset 'substatement-open 0)
+(c-set-offset 'inline-open '0)
+(c-set-offset 'block-open '0)
+(c-set-offset 'brace-list-open '0)   ; all "opens" should be indented by the c-indent-level
+(c-set-offset 'case-label '0)
+
+;; disable csharp-mode's funky autopair override
+(add-hook 'csharp-mode-hook
+          (lambda ()
+          (local-set-key (kbd "{") 'c-electric-brace)))
 
 ;; Autopair https://github.com/capitaomorte/autopair
 (require 'autopair)
 (autopair-global-mode) ;; enable autopair in all buffers
+
+
+;; make tab key do indent first then completion.
+(setq tab-always-indent 'complete)
+
+;; haskell indent
+(add-hook 'haskell-mode-hook
+          (lambda ()
+            (turn-on-haskell-indentation)
+            (flymake-haskell-multi-load)))
+
+(add-hook 'term-mode-hook
+          (lambda ()
+            (evil-emacs-state)))
 
 ;; toggles the windows when two windows are split
 ;; taken from the Emacs rocks guy's blog
@@ -187,25 +194,6 @@
 
 (global-set-key (kbd "C-x C-r") 'rename-current-buffer-file)
 
-
-;; Functions for opening lines below and above the current line.
-;; Makes opening a line mid-sentence much easier.
-;; Taken from the Emacs Rocks guy's blog
-(defun open-line-below ()
-  (interactive)
-  (end-of-line)
-  (newline)
-  (indent-for-tab-command))
-
-(defun open-line-above ()
-  (interactive)
-  (beginning-of-line)
-  (newline)
-  (forward-line -1)
-  (indent-for-tab-command))
-
-(global-set-key (kbd "<C-return>") 'open-line-below)
-(global-set-key (kbd "<C-S-return>") 'open-line-above)
 
 ;; toggles the window split from verticle to horizontal and vice versa
 ;; taken from the Emacs Rocks guy's blog

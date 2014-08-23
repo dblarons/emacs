@@ -14,13 +14,26 @@
         c-electric-semi&comma
         c-electric-slash
         c-indent-line-or-region
+        evil-append
+        evil-backward-char
+        evil-backward-word-begin
+        evil-force-normal-state
+        evil-forward-char
+        evil-forward-word-begin
+        evil-forward-word-end
+        evil-insert
+        evil-next-line
+        evil-normal-state
+        evil-previous-line
         ))
 
 (setq mc/cmds-to-run-once
       '(
+        haskell-indentation-delete-backward-char
         ido-switch-buffer
         isearch-forward-regexp
         isearch-printing-char
+        nxml-electric-slash
         org-self-insert-command
         smex
         ))
