@@ -111,17 +111,10 @@
   (c-set-offset 'substatement-open '0) ; brackets should be at same indentation level as the statements they open
   (c-set-offset 'inline-open '0)
   (c-set-offset 'block-open '0)
-;;   (c-set-offset 'brace-list-open '+)   ; all "opens" should be indented by the c-indent-level
-  (c-set-offset 'case-label '+))       ; indent case labels by c-indent-level, too
+  (c-set-offset 'case-label '0))       ; indent case labels by c-indent-level, too
 (add-hook 'c-mode-hook 'my-c-mode-hook)
 (add-hook 'c++-mode-hook 'my-c-mode-hook)
 (add-hook 'csharp-mode-hook 'my-c-mode-hook)
-
-(c-set-offset 'substatement-open 0)
-(c-set-offset 'inline-open '0)
-(c-set-offset 'block-open '0)
-(c-set-offset 'brace-list-open '0)   ; all "opens" should be indented by the c-indent-level
-(c-set-offset 'case-label '0)
 
 ;; disable csharp-mode's funky autopair override
 (add-hook 'csharp-mode-hook
