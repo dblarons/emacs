@@ -29,10 +29,14 @@
 
 (setq mc/cmds-to-run-once
       '(
+        erc-button-click-button
+        evil-append-line
+        evil-delete-backward-char-and-join
         haskell-indentation-delete-backward-char
         ido-switch-buffer
         isearch-forward-regexp
         isearch-printing-char
+        mouse-save-then-kill
         nxml-electric-slash
         org-self-insert-command
         smex

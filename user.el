@@ -1,5 +1,5 @@
 ;; Default window size when emacs is opened
-(setq initial-frame-alist '((top . 0) (left . 0) (width . 158) (height . 46)))
+(setq initial-frame-alist '((top . 0) (left . 0) (width . 159) (height . 46)))
 
 ;; Place downloaded elisp files in this directory. You'll then be able
 ;; to load them.
@@ -21,9 +21,21 @@
 (setq-default sh-basic-offset 2)
 (setq-default sh-indentation 2)
 
-(global-evil-leader-mode) ;; must enable before evil-mode
+(global-evil-leader-mode) ;; must enable before evil mode
 (evil-leader/set-leader ",")
 (evil-mode t)
+
+(add-hook 'term-mode-hook
+          (lambda ()
+            (evil-emacs-state)))
+
+(add-hook 'cider-repl-mode-hook
+          (lambda ()
+            (evil-emacs-state)))
+
+(add-hook 'cider-stacktrace-mode-hook
+          (lambda ()
+            (visual-line-mode t)))
 
 ;; some installed themes are at https://github.com/owainlewis/emacs-color-themes
 ;; Themes
@@ -42,11 +54,11 @@
 (set-face-italic-p 'font-lock-comment-delimiter-face nil)
 
 ;; disable fringes
-(fringe-mode 0)
+(fringe-mode 0) ; (cons nil 0) for left fringe only
 
 ;; enable smart-mode-line
-(setq sml/theme 'respectful)
 (sml/setup)
+(sml/apply-theme 'respectful)
 
 ;; Enable clipboard interoperability
 (setq x-select-enable-clipboard t)
@@ -58,21 +70,6 @@
 
 ;; Flyspell Often Slows Down editing so it's turned off
 (remove-hook 'text-mode-hook 'turn-on-flyspell)
-
-;; Clojure
-(add-to-list 'auto-mode-alist '("\\.edn$" . clojure-mode))
-(setq nrepl-history-file "~/.emacs.d/nrepl-history")
-(setq nrepl-popup-stacktraces t)
-(setq nrepl-popup-stacktraces-in-repl t)
-(add-hook 'nrepl-connected-hook
-          (defun pnh-clojure-mode-eldoc-hook ()
-            (add-hook 'clojure-mode-hook 'turn-on-eldoc-mode)
-            (add-hook 'nrepl-interaction-mode-hook 'nrepl-turn-on-eldoc-mode)
-            (nrepl-enable-on-existing-clojure-buffers)))
-(add-hook 'nrepl-mode-hook 'subword-mode)
-(eval-after-load "auto-complete"
-  '(add-to-list 'ac-modes 'nrepl-mode))
-(add-hook 'nrepl-mode-hook 'ac-nrepl-setup)
 
 ;; hippie expand - don't try to complete with file names
 (setq hippie-expand-try-functions-list (delete 'try-complete-file-name hippie-expand-try-functions-list))
@@ -86,9 +83,8 @@
 ;; activate emacs electric indent mode
 (electric-indent-mode 1)
 
-;; change modeline color
-;; (set-face-background 'mode-line "dark-grey")
-;; (set-face-foreground 'mode-line "grey")
+;; activate emacs electric pair mode
+(electric-pair-mode 1)
 
 ;; Set hippie expand to M-spc instead of the default M-/
 (global-set-key "\M- " 'hippie-expand)
@@ -98,7 +94,7 @@
 ;; my changes
 (setq c-default-style "linux" c-basic-offset 4)
 
-;; ;; from wiki
+;; from wiki
 (setq-default c-indent-tabs-mode t     ; Pressing TAB should cause indentation
               c-indent-level 4         ; A TAB is equivilent to four spaces
               c-argdecl-indent 0       ; Do not indent argument decl's extra
@@ -114,30 +110,12 @@
   (c-set-offset 'case-label '0))       ; indent case labels by c-indent-level, too
 (add-hook 'c-mode-hook 'my-c-mode-hook)
 (add-hook 'c++-mode-hook 'my-c-mode-hook)
-(add-hook 'csharp-mode-hook 'my-c-mode-hook)
-
-;; disable csharp-mode's funky autopair override
-(add-hook 'csharp-mode-hook
-          (lambda ()
-          (local-set-key (kbd "{") 'c-electric-brace)))
-
-;; Autopair https://github.com/capitaomorte/autopair
-(require 'autopair)
-(autopair-global-mode) ;; enable autopair in all buffers
-
-
-;; make tab key do indent first then completion.
-(setq tab-always-indent 'complete)
 
 ;; haskell indent
 (add-hook 'haskell-mode-hook
           (lambda ()
             (turn-on-haskell-indentation)
             (flymake-haskell-multi-load)))
-
-(add-hook 'term-mode-hook
-          (lambda ()
-            (evil-emacs-state)))
 
 ;; toggles the windows when two windows are split
 ;; taken from the Emacs rocks guy's blog
@@ -222,9 +200,23 @@
 (require 'io-mode)
 (add-to-list 'auto-mode-alist '("\\.io$" . io-mode))
 
+(defun typed-clj-check-ns-key ()
+  "Send type checking command for core.typed to cider REPL."
+  (interactive)
+  (cider-interactive-eval "(t/check-ns)"))
+
+;; rainbow delimeters for clojure and elisp
+(add-hook 'clojure-mode-hook #'rainbow-delimiters-mode)
+(add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
+
+(eval-after-load 'cider-mode
+  '(progn
+     ;; easily typecheck code
+     (define-key cider-mode-map (kbd "C-c c") 'typed-clj-check-ns-key)))
+
 ;; scroll one line at a time
 (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
-;; (setq mouse-wheel-progressive-speed nil) ;; don't accelerate scrolling
+(setq mouse-wheel-progressive-speed nil) ;; don't accelerate scrolling
 
 ;; disable auto-fill-mode by default
 (auto-fill-mode -1)
@@ -232,15 +224,6 @@
 
 ;; enable expand-region
 (global-set-key (kbd "C-=") 'er/expand-region)
-
-;; change tab-to-tab-stop from default M-i to C-c i
-(global-set-key (kbd "C-c i") 'tab-to-tab-stop)
-
-;; change back-to-indentation from M-m to M-i
-(global-set-key (kbd "M-i") 'back-to-indentation)
-
-;; set iy-go-to-char to M-m
-(global-set-key (kbd "M-m") 'iy-go-to-char)
 
 ;; A small minor mode to use a big fringe
 (defvar bzg-big-fringe-mode nil)
@@ -274,6 +257,11 @@
 (ido-mode 1)
 (ido-vertical-mode 1)
 
+;; ERC configuration
+(setq erc-log-channels-directory "~/.erc/logs/")
+(setq erc-save-buffer-on-part t)
+(setq erc-log-insert-log-on-open nil)
+
 ;; Ignore buffers with ido
 (ido-mode 'buffers) ;; only use this line to turn off ido for file names!
 (setq ido-ignore-buffers '("^ " "*Completions*" "*Shell Command Output*"
@@ -286,7 +274,3 @@
 
 ;; disable ido faces to see flx highlights.
 ;; (setq ido-use-faces nil)
-
-;; set path for markdown parser
-(custom-set-variables
- '(markdown-command "/usr/local/bin/markdown"))
